@@ -21,7 +21,7 @@
   in 
   {
     darwinConfigurations."mbpro" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration {nixpkgs.hostPlatform = "aarch64-darwin";} ];
+      modules = [ configuration ];
     };
 
     darwinPackages = self.darwinConfigurations."mbpro".pkgs; 
