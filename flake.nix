@@ -10,11 +10,12 @@
   outputs = inputs@{self, nix-darwin, nixpkgs}:
   let 
     configuration =  {pkgs, ...}: {
-      environment.systemPackages = [pkgs.neovim];
-      services.nix-daemon.enable = true;
-      nix.settings.experimental-features = "nix-command flakes";
-      program.zsh.enable = true;
-      systemconfigurationRevision = self.rev or self.dirtyRev or null; 
+      nixpkgs.config.allowUnfree = true;
+      environment.systemPackages = [ pkgs.neovim pkgs.vim pkgs.code-cursor ];
+      nix.settings.experimental-features = ["nix-command" "flakes"];
+      programs.zsh.enable = true;
+      system.configurationRevision = self.rev or self.dirtyRev or null; 
+      system.stateVersion = 5;
       nixpkgs.hostPlatform = "aarch64-darwin";
     };
 
