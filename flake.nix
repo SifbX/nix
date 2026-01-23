@@ -10,11 +10,14 @@
   };
 
   outputs = { self, nix-darwin, nixpkgs, home-manager, ... }:
+  let
+    mkDarwin = import ./configurations/darwin;
+  in
   {
     darwinConfigurations."mbpro" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
-        ./darwin
+        (mkDarwin "mozsoy")
         home-manager.darwinModules.home-manager
         {
           nixpkgs.config.allowUnfree = true;
