@@ -5,24 +5,29 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{self, nix-darwin, nixpkgs}:
-  let 
-    configuration =  {pkgs, ...}: {
-      nixpkgs.config.allowUnfree = true;
-      environment.systemPackages = [ pkgs.neovim pkgs.vim pkgs.code-cursor ];
-      nix.settings.experimental-features = ["nix-command" "flakes"];
-      programs.zsh.enable = true;
-      system.configurationRevision = self.rev or self.dirtyRev or null; 
-      system.stateVersion = 5;
-      nixpkgs.hostPlatform = "aarch64-darwin";
-    };
-
-  in 
+  outputs = { self, nix-darwin, nixpkgs, home-manager, ... }:
   {
     darwinConfigurations."mbpro" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
+      system = "aarch64-darwin";
+      modules = [
+        ./darwin
+        home-manager.darwinModules.home-manager
+        {
+          nixpkgs.config.allowUnfree = true;
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.mozsoy = { pkgs, ... }: {
+            home.username = "mozsoy";
+            home.stateVersion = "24.05";
+            home.homeDirectory = "/Users/mozsoy";
+            home.packages = [ pkgs.code-cursor];
+          };
+        }
+      ];
     };
 
     darwinPackages = self.darwinConfigurations."mbpro".pkgs; 
