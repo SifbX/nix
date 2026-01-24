@@ -11,13 +11,14 @@
 
   outputs = { self, nix-darwin, nixpkgs, home-manager, ... }:
   let
-    mkDarwin = import ./configurations/darwin;
+    darwinModules = import ./configurations/darwin/modules.nix;
   in
   {
     darwinConfigurations."mbpro" = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
-        (mkDarwin "mozsoy")
+        darwinModules.macbookProMinimal
+        darwinModules.packages
         home-manager.darwinModules.home-manager
         {
           nixpkgs.config.allowUnfree = true;
@@ -32,8 +33,6 @@
         }
       ];
     };
-
-    darwinPackages = self.darwinConfigurations."mbpro".pkgs; 
   };
 
 }
