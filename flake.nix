@@ -18,7 +18,7 @@
       system = "aarch64-darwin";
       modules = [
         darwinModules.macbookProMinimal
-        darwinModules.packages
+        darwinModules.packagesModule
         home-manager.darwinModules.home-manager
         {
           nixpkgs.config.allowUnfree = true;

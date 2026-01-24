@@ -4,5 +4,5 @@ let
 in
 {
   macbookProMinimal = mkDarwin "mozsoy";
-  packages = import ./packages.nix;
+  packagesModule = import ./packages.nix;
 }
