@@ -7,32 +7,33 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nix-darwin, nixpkgs, home-manager, ... }:
-  let
-    darwinModules = import ./configurations/darwin/modules.nix;
-  in
-  {
-    darwinConfigurations."mbpro" = nix-darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
-      modules = [
-        darwinModules.macbookProMinimal
-        darwinModules.packagesModule
-        home-manager.darwinModules.home-manager
-        {
-          nixpkgs.config.allowUnfree = true;
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.mozsoy = { pkgs, ... }: {
-            home.username = "mozsoy";
-            home.stateVersion = "24.05";
-            home.homeDirectory = "/Users/mozsoy";
-            home.packages = [ pkgs.code-cursor];
-          };
-        }
-      ];
+    let
+      darwinModules = import ./configurations/darwin/default.nix;
+      homeManagerModules = import ./configurations/home_manager;
+    in
+    {
+    darwinConfigurations = {
+      MacbookProFull = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          darwinModules.profiles.full
+          home-manager.darwinModules.home-manager
+          homeManagerModules.profiles.full
+        ];
+      };
+      MacbookProMinimal = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          darwinModules.profiles.minimal
+          home-manager.darwinModules.home-manager
+          homeManagerModules.profiles.minimal
+        ];
+      };
     };
-  };
-
+    };
 }
