@@ -8,7 +8,7 @@ inputs: let
       system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
       system.stateVersion = 6;
       modules = [
-        darwinModules.profiles.${profile}
+        darwinModules.darwin
         homeManagerModules.profiles.${profile}
         (aliasScript username)
       ];
