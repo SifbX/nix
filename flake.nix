@@ -11,29 +11,8 @@
     vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nix-darwin, nixpkgs, home-manager, ... }:
-    let
-      darwinModules = import ./configurations/darwin/default.nix;
-      homeManagerModules = import ./configurations/home_manager;
-    in
+  outputs = inputs:
     {
-    darwinConfigurations = {
-      MacbookProFull = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        modules = [
-          darwinModules.profiles.full
-          home-manager.darwinModules.home-manager
-          homeManagerModules.profiles.full
-        ];
-      };
-      MacbookProMinimal = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        modules = [
-          darwinModules.profiles.minimal
-          home-manager.darwinModules.home-manager
-          homeManagerModules.profiles.minimal
-        ];
-      };
-    };
+      darwinConfigurations = import ./configurations/darwin inputs;
     };
 }

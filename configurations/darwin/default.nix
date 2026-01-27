@@ -1,24 +1,22 @@
-let
-  mkDarwin = username: {
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
-    programs.zsh.enable = true;
-    system.stateVersion = 5;
-    nixpkgs.hostPlatform = "aarch64-darwin";
-    users.users.${username} = {
-      home = "/Users/${username}";
-      name = username;
-    };
-  };
+inputs: let
+  darwinModules = import ../../modules/darwin inputs;
+  homeManagerModules = import ../../modules/home_manager inputs;
+  aliasScript = import ./scripts/alias_script.nix;
 
-  mkModule = username: extraModules: {
-    imports = [
-      (mkDarwin username)
-    ] ++ extraModules;
-  };
-in
-{
-  profiles = {
-    full = mkModule "mozsoy" [ ./packages ];
-    minimal = mkModule "mozsoy" [ ];
-  };
-}
+  mkDarwinConfig = username: profile:
+    inputs.nix-darwin.lib.darwinSystem {
+      system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
+      system.stateVersion = 6;
+      modules = [
+        darwinModules.profiles.${profile}
+        homeManagerModules.profiles.${profile}
+        (aliasScript username)
+      ];
+    };
+
+  in {
+    MacbookProFull = mkDarwinConfig "mozsoy" "full";
+    MacbookProStandard = mkDarwinConfig "mozsoy" "standard";
+    MacbookProMinimal = mkDarwinConfig "mozsoy" "minimal";
+  }
+
