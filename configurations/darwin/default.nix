@@ -1,7 +1,10 @@
 inputs: let
+  username = "mozsoy";
+
   darwinModules = import ../../modules/darwin inputs;
   homeManagerModules = import ../../modules/home_manager inputs;
-  aliasScript = import ./scripts/alias_script.nix;
+  aliasScript = import ./scripts/alias_script.nix username;
+
 
   mkDarwinConfig = username: profile:
     inputs.nix-darwin.lib.darwinSystem {
@@ -9,14 +12,14 @@ inputs: let
       system.stateVersion = 6;
       modules = [
         darwinModules.darwin
+        aliasScript
         homeManagerModules.profiles.${profile}
-        (aliasScript username)
       ];
     };
 
   in {
-    MacbookProFull = mkDarwinConfig "mozsoy" "full";
-    MacbookProStandard = mkDarwinConfig "mozsoy" "standard";
-    MacbookProMinimal = mkDarwinConfig "mozsoy" "minimal";
+    MacbookProFull = mkDarwinConfig username "full";
+    MacbookProStandard = mkDarwinConfig username "standard";
+    MacbookProMinimal = mkDarwinConfig username "minimal";
   }
 

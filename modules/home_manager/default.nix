@@ -1,4 +1,6 @@
 inputs: let
+  username = "mozsoy";
+
   mkHomeConfig = username: programs: {
     imports = programs;
     home = {
@@ -14,7 +16,6 @@ inputs: let
     nixpkgs.hostPlatform = "aarch64-darwin";
     home-manager.useGlobalPkgs = true;
     nixpkgs.overlays = [ inputs.vscode-extensions.overlays.default ];
-    
     home-manager.users.${username} =
       mkHomeConfig username programs;
   };
@@ -22,8 +23,8 @@ inputs: let
 in
 {
   profiles = {
-    full = mkModule "mozsoy" [ ./packages ];
-    standard = mkModule "mozsoy" [ ./packages/vscode ./packages/spotify ];
-    minimal = mkModule "mozsoy" [ ];
+    full = mkModule username [ ./packages ];
+    standard = mkModule username [ ./packages/cursor ./packages/spotify ./packages/uv];
+    minimal = mkModule username [ ];
   };
 }
