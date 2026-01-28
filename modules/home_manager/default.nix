@@ -13,7 +13,6 @@ inputs: let
   mkModule = username: programs: {
     imports = [inputs.home-manager.darwinModules.home-manager];
     nixpkgs.config.allowUnfree = true;
-    nixpkgs.hostPlatform = "aarch64-darwin";
     home-manager.useGlobalPkgs = true;
     nixpkgs.overlays = [ inputs.vscode-extensions.overlays.default ];
     home-manager.users.${username} =

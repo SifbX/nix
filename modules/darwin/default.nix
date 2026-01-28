@@ -1,4 +1,4 @@
-inputs: let
+inputs: {
   mkDarwin = username: {
     nix.settings.experimental-features = [ "nix-command" "flakes" ];
     programs.zsh.enable = true;
@@ -9,7 +9,4 @@ inputs: let
       name = username;
     };
   };
-in
-{
-  darwin = mkDarwin "mozsoy";
 }

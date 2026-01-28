@@ -9,15 +9,15 @@ inputs: let
   mkDarwinConfig = username: profile:
     inputs.nix-darwin.lib.darwinSystem {
       modules = [
-        darwinModules.darwin
+        (darwinModules.mkDarwin username)
         aliasScript
         homeManagerModules.profiles.${profile}
       ];
     };
 
   in {
-    MacbookProFull = mkDarwinConfig username "full";
-    MacbookProStandard = mkDarwinConfig username "standard";
-    MacbookProMinimal = mkDarwinConfig username "minimal";
+    MacbookProFull = mkDarwinConfig username "full";  # useful for testing all packages together
+    MacbookProStandard = mkDarwinConfig username "standard"; # default
+    MacbookProMinimal = mkDarwinConfig username "minimal"; # useful for debugging 
   }
 
