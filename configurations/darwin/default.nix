@@ -8,8 +8,6 @@ inputs: let
 
   mkDarwinConfig = username: profile:
     inputs.nix-darwin.lib.darwinSystem {
-      system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
-      system.stateVersion = 6;
       modules = [
         darwinModules.darwin
         aliasScript
