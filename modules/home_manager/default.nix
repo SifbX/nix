@@ -24,7 +24,7 @@ in
 {
   profiles = {
     full = mkModule username [ ./packages ];
-    standard = mkModule username [ ./packages/cursor ./packages/spotify ./packages/uv];
+    standard = mkModule username [ ./packages/vscode ./packages/spotify ./packages/uv];
     minimal = mkModule username [ ];
   };
 }
