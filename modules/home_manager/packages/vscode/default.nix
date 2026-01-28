@@ -1,9 +1,11 @@
 { pkgs, vscode-extensions, ... }:
 let 
+  keyBindings = import ./keybindings.nix;
+
   pythonDevExtensions = import ./extensions/python.nix pkgs;
   gitExtensions = import ./extensions/git.nix pkgs;
   nixExtensions = import ./extensions/nix.nix pkgs;
-  keyBindings = import ./keybindings.nix;
+  
   extensions = pythonDevExtensions ++ gitExtensions ++ nixExtensions;
 in
 {
