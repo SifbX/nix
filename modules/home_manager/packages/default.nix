@@ -9,5 +9,6 @@
     ./tex-live
     ./docker
     ./colima
+    ./zsh
   ];
 }
