@@ -1,4 +1,4 @@
-{ pkgs, lib, enabledApps ? {}, ... }:
+{ pkgs, ... }:
 let 
   keyBindings = import ./keybindings.nix;
 
@@ -9,11 +9,9 @@ let
   extensions = pythonDevExtensions ++ gitExtensions ++ nixExtensions;
 in
 {
-  config = lib.mkIf (enabledApps.vscode or false) {
-    programs.vscode = {
-      enable = true;
-      profiles.Default.extensions = extensions;
-      profiles.Default.keybindings = keyBindings;
-    };
+  programs.vscode = {
+    enable = true;
+    profiles.Default.extensions = extensions;
+    profiles.Default.keybindings = keyBindings;
   };
 }

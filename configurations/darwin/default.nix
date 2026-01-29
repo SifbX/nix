@@ -4,23 +4,25 @@ inputs: let
   darwinModules = import ../../modules/darwin inputs;
   homeManagerModules = import ../../modules/home_manager inputs;
   aliasScript = import ./scripts/alias_script.nix username;
-  profiles = import ./profiles.nix;
 
-  mkDarwinConfig = username: profile:
-    let
-      enabledApps = profiles.${profile};
-    in
+  mkDarwinConfig = username: appsModule:
     inputs.nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit enabledApps; };
       modules = [
         (darwinModules.mkDarwin username)
         aliasScript
-        (homeManagerModules.mkHomeManagerModule username enabledApps)
+        homeManagerModules.homeManager
+        appsModule
       ];
     };
 
   in {
-    MacbookProFull = mkDarwinConfig username "full";
-    MacbookProStandard = mkDarwinConfig username "standard";
-    MacbookProMinimal = mkDarwinConfig username "minimal";
+    MacbookProFull = mkDarwinConfig username { 
+      custom.apps = [ "vscode" "spotify" "htop" "uv" "cursor" "tex-live" "docker" "colima" "zsh" ]; 
+    };
+    MacbookProStandard = mkDarwinConfig username { 
+      custom.apps = [ "cursor" "spotify" "uv" ]; 
+    };
+    MacbookProMinimal = mkDarwinConfig username { 
+      custom.apps = []; 
+    };
   }

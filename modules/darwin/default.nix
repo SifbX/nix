@@ -1,6 +1,7 @@
 inputs: {
   mkDarwin = username: {
     imports = [
+      ./app_options.nix
       ./dock_settings.nix
     ];
     

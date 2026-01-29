@@ -1,6 +1,3 @@
-{ pkgs, lib, enabledApps ? {}, ... }:
-{
-  config = lib.mkIf (enabledApps.texlive or false) {
-    home.packages = [ pkgs.texliveFull ];
-  };
+{ pkgs, ... }: {
+  home.packages = [ pkgs.texliveFull ];
 }

@@ -1,6 +1,12 @@
 inputs: let
-  mkHomeConfig = username: {
-    imports = [ ./packages ];
+  username = "mozsoy";
+  packages = import ./packages;
+  
+  # Converts list of package names to list of imports
+  mkModules = names: builtins.concatLists (map (name: packages.${name}) names);
+
+  mkHomeConfig = username: programs: {
+    imports = programs;
     home = {
       username = username;
       homeDirectory = "/Users/${username}";
@@ -8,14 +14,15 @@ inputs: let
     };
   };
 
-in
-{
-  mkHomeManagerModule = username: enabledApps: {
+  mkModule = username: { config, ... }: {
     imports = [ inputs.home-manager.darwinModules.home-manager ];
     nixpkgs.config.allowUnfree = true;
     home-manager.useGlobalPkgs = true;
-    home-manager.extraSpecialArgs = { inherit enabledApps; };
     nixpkgs.overlays = [ inputs.vscode-extensions.overlays.default ];
-    home-manager.users.${username} = mkHomeConfig username;
+    home-manager.users.${username} = mkHomeConfig username (mkModules config.custom.apps);
   };
+
+in
+{
+  homeManager = mkModule username;
 }
