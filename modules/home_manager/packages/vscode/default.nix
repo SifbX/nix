@@ -12,7 +12,7 @@ in
 {
   programs.vscode = {
     enable = true;
-    profiles.Default.extensions = extensions;
-    profiles.Default.keybindings = keyBindings;
+    profiles.memo.extensions = extensions;
+    profiles.memo.keybindings = keyBindings;
   };
 }

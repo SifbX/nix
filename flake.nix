@@ -16,3 +16,4 @@
       darwinConfigurations = import ./configurations/darwin inputs;
     };
 }
+
