@@ -1,5 +1,4 @@
-{ pkgs, ... }: {
-  programs.vscode.extensions = with pkgs.vscode-extensions; [
+pkgs:
+with pkgs.vscode-marketplace; [
     openai.chatgpt
-  ];
-}
+]
