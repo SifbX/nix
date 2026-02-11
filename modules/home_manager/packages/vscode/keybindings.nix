@@ -24,4 +24,9 @@
     command = "workbench.action.debug.restart";
     when = "debugState == 'stopped'";
   }
+  {
+    key = "cmd+e";
+    command = "editor.debug.action.selectionToRepl";
+    when = "debugState == 'stopped'";
+  }
 ]
