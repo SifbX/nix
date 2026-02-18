@@ -20,7 +20,7 @@ inputs: let
       custom.apps = [ "vscode" "spotify" "htop" "uv" "cursor" "tex-live" "docker" "colima" "zsh" ]; 
     };
     MacbookProStandard = mkDarwinConfig username { 
-      custom.apps = [ "cursor" "spotify" "vscode" "uv" ]; 
+      custom.apps = [ "cursor" "spotify" "vscode" "uv" "rustup" ]; 
     };
     MacbookProMinimal = mkDarwinConfig username { 
       custom.apps = []; 

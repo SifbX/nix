@@ -8,4 +8,5 @@
   docker = [ ./docker ];
   colima = [ ./colima ];
   zsh = [ ./zsh ];
+  rustup = [ ./rustup ];
 }
