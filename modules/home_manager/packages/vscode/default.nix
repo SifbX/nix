@@ -1,6 +1,7 @@
 { pkgs, ... }:
 let 
   keyBindings = import ./keybindings.nix;
+  userSettings = import ./settings.nix;
 
   pythonDevExtensions = import ./extensions/python.nix pkgs;
   gitExtensions = import ./extensions/git.nix pkgs;
@@ -14,5 +15,6 @@ in
     enable = true;
     profiles.memo.extensions = extensions;
     profiles.memo.keybindings = keyBindings;
+    profiles.memo.settings = userSettings;
   };
 }
